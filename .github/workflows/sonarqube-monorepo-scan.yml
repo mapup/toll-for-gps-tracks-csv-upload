@@ -5,6 +5,10 @@ on:
     - cron: '15 3,15 * * *'
   workflow_dispatch:
     inputs:
+    branch:
+      description: 'Branch to scan'
+      required: false
+      default: 'main'
       reason:
         description: 'Reason for manual run'
         required: false
@@ -32,6 +36,7 @@ jobs:
         with:
           fetch-depth: 0
 
+          ref: ${{ github.event.inputs.branch || 'main' }}
       - name: Log manual run reason
         if: github.event_name == 'workflow_dispatch'
         run: echo "Manual trigger - ${{ github.event.inputs.reason }}"
@@ -45,3 +50,15 @@ jobs:
             -Dsonar.projectKey=tolltally-api-gps-tracks-csv-upload
             -Dsonar.sources=.
             -Dsonar.exclusions=**/node_modules/**
+      - name: Update project sheet tab
+        continue-on-error: true
+        run: |
+          sleep 120
+          RESPONSE=$(curl -s -L \
+            "${{ secrets.APPS_SCRIPT_WEB_APP_URL }}?project=tolltally-api-gps-tracks-csv-upload")
+          echo "Sheet update response: $RESPONSE"
+          if [ "$RESPONSE" = "ok" ]; then
+            echo "Sheet updated successfully"
+          else
+            echo "Sheet update may have failed: $RESPONSE"
+          fi
