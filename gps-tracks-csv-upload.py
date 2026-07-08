@@ -59,9 +59,10 @@ def gps_tracks_csv_download(
     return response
 
 
-print(gps_tracks_csv_upload())
-print(
-    gps_tracks_csv_download(
-        response_from_gps_tracks_csv_upload=gps_tracks_csv_upload(is_async=True)
+if __name__ == "__main__":
+    print(gps_tracks_csv_upload())
+    print(
+        gps_tracks_csv_download(
+            response_from_gps_tracks_csv_upload=gps_tracks_csv_upload(is_async=True)
+        )
     )
-)
