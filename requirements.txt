@@ -1,0 +1,5 @@
+requests
+
+# Test / coverage tooling
+pytest
+pytest-cov
