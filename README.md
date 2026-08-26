@@ -30,6 +30,12 @@ A single-language (Python) reference implementation demonstrating the TollGuru G
 ```bash
 git clone <repo-url>
 cd toll-for-gps-tracks-csv-upload
+
+# One-time per clone: wire the gitleaks pre-commit hook (installs gitleaks if
+# missing). Without it, git commit is not scanned for secrets. Re-run after
+# any fresh clone or new worktree - it is a no-op when already done.
+./hooks/install.sh
+
 pip install requests
 export TOLLGURU_API_KEY="your-key-here"
 ```
